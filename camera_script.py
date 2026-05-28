@@ -9,13 +9,16 @@ import time
 
 # Adjust the below constants to your requirements!!
 # You can generate an app password by visiting this link: https://myaccount.google.com/apppasswords
+# You can find a pinout for your Raspberry Pi's GPIO here: https://pinout.xyz/
 
 SMTP_USERNAME = '<Google account address>'
-SMTP_PASSWORD = '<app password>'
+SMTP_PASSWORD = '<App password>'
 
 SUBJECT = 'Security alert!'
 FROM_ADDRESS = '<Google account address, same as SMTP_USERNAME>'
 TO_ADDRESS = '<Email address to send the alert to>'
+
+GPIO_PIN = <Replace this with the GPIO pin number your motion sensor is plugged into>
 
 GPIO.setmode(GPIO.BCM)
 
@@ -27,9 +30,9 @@ config = picam.create_preview_configuration(main={"size": (4608,2592)})
 picam.configure(config)
 picam.start()
    
-GPIO.setup(23, GPIO.IN)
+GPIO.setup(GPIO_PIN, GPIO.IN)
 while True:
-    if GPIO.input(23):
+    if GPIO.input(GPIO_PIN):
         current_date_temp = datetime.now()
         current_date = current_date_temp.strftime("%d-%m-%Y-%H-%M-%S")
         filename = f"motion-image-{current_date}.jpg"
